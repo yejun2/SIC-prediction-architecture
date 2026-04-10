@@ -1,6 +1,7 @@
 # SIC-prediction-architecture
 ipiu 2026, Diffusion Transformer를 이용한 해빙 농도 변화 추세 예측 모델
 
+---
 Diffusion Transformer 기반 해빙 농도 변화 추세 예측 모델
 
 개요
@@ -12,7 +13,7 @@ Diffusion Transformer 기반 해빙 농도 변화 추세 예측 모델
 제안 방법은 미래 해빙 상태를 일 단위로 연속적으로 생성함으로써,
 해빙의 시공간적 변화 패턴을 보다 정밀하게 모델링한다.
 
-
+---
 문제 정의
 
 기존 해빙 농도 예측 방식의 한계:
@@ -22,7 +23,7 @@ Diffusion Transformer 기반 해빙 농도 변화 추세 예측 모델
 
 본 연구는 이를 해결하기 위해 예측 문제를 생성 모델 기반 순차적 예측 문제로 확장한다.
 
-
+---
 방법
 
 1. Diffusion Transformer 기반 생성 모델
@@ -50,7 +51,7 @@ Diffusion Transformer 기반 해빙 농도 변화 추세 예측 모델
 	•	일정 구간 roll-out 후 전체 오차를 기반으로 미세 조정 학습 수행
 	•	장기 예측에서의 안정성과 일관성 향상  ￼
 
-
+---
 실험
 
 데이터셋
@@ -66,7 +67,7 @@ Diffusion Transformer 기반 해빙 농도 변화 추세 예측 모델
 평가 지표
 	•	RMSE (%)
 
-
+---
 결과
 	•	장기 예측에서도 안정적인 성능 유지
 	•	계절 변화가 큰 구간에서도 성능 붕괴 없이 예측 가능
@@ -74,20 +75,20 @@ Diffusion Transformer 기반 해빙 농도 변화 추세 예측 모델
 	•	2024년 평균 RMSE: 14.51%  ￼
 	•	미세 조정 적용 시 약 1~3% 성능 개선  ￼
 
-
+---
 기여
 	•	해빙 농도 예측을 생성 모델 기반 문제로 재정의
 	•	Diffusion Transformer를 활용한 시공간 예측 프레임워크 제안
 	•	조건 정보 주입을 위한 Adaptive Layer Normalization 적용
 	•	장기 예측 안정성을 위한 자기회귀 미세 조정 전략 제안
 
-
+---
 저자
 
 정예준, 김동윤, 박진선
 부산대학교
 
-
+---
 citation
 
 정예준, 김동윤, 박진선.
