@@ -1,96 +1,154 @@
-# SIC-prediction-architecture
-ipiu 2026, Diffusion Transformer를 이용한 해빙 농도 변화 추세 예측 모델
+# SIC Prediction with Diffusion Transformer
+
+> **Diffusion Transformer를 이용한 해빙 농도 변화 추세 예측 모델**  
+> Image Processing and Understanding Workshop (IPIU) 2026
+
+## Overview
+
+본 연구는 해빙 농도(Sea Ice Concentration, SIC) 예측을 기존의 단일 시점 회귀 문제에서 벗어나, 시간에 따라 변화하는 미래 해빙 상태를 연속적으로 생성하는 시공간 생성 문제로 재정의합니다.
+
+이를 위해 과거 해빙 농도와 기후 환경 정보를 조건으로 활용하는 Diffusion Transformer 기반 순차 예측 프레임워크를 제안합니다. 제안 모델은 미래 해빙 상태를 일 단위로 생성하며, 장기 예측 과정에서 나타나는 공간적 변화와 시간적 연속성을 함께 모델링합니다.
 
 ---
-Diffusion Transformer 기반 해빙 농도 변화 추세 예측 모델
 
-개요
+## Motivation
 
-본 연구는 해빙 농도(Sea Ice Concentration, SIC) 예측 문제를 기존의 단일 시점 예측이 아닌,
-시간에 따라 변화하는 영상 생성 문제로 재정의하고, Diffusion Transformer 기반의
-순차적 생성 프레임워크를 제안한다.  ￼
+기존 해빙 농도 예측 방법은 주로 특정 미래 시점의 상태를 직접 예측하는 방식으로 구성됩니다. 이러한 접근은 다음과 같은 한계를 가집니다.
 
-제안 방법은 미래 해빙 상태를 일 단위로 연속적으로 생성함으로써,
-해빙의 시공간적 변화 패턴을 보다 정밀하게 모델링한다.
+- 중간 시점의 변화를 명시적으로 모델링하기 어려움
+- 해빙 농도의 연속적인 변화 추세를 충분히 반영하지 못함
+- 여름철과 같이 해빙 변화가 급격한 구간에서 예측 성능이 저하될 수 있음
+- 장기 예측 시 시간적 일관성과 안정성을 유지하기 어려움
 
----
-문제 정의
-
-기존 해빙 농도 예측 방식의 한계:
-	•	특정 시점만을 예측하는 단일 스텝 구조
-	•	해빙의 연속적인 변화 흐름을 반영하지 못함
-	•	여름철과 같은 급격한 변화 구간에서 성능 저하  ￼
-
-본 연구는 이를 해결하기 위해 예측 문제를 생성 모델 기반 순차적 예측 문제로 확장한다.
+본 연구에서는 해빙 농도 예측을 조건부 생성 문제로 확장하고, 미래 상태를 순차적으로 생성함으로써 해빙의 시공간적 변화 과정을 모델링합니다.
 
 ---
-방법
 
-1. Diffusion Transformer 기반 생성 모델
-	•	해빙 농도를 확률 분포 학습 문제로 정의
-	•	Diffusion 과정에서 노이즈를 점진적으로 제거하며 미래 상태 생성
-	•	Transformer 기반 구조(DiT)를 사용하여
-전역 공간 의존성 및 시공간 패턴 학습  ￼
+## Method
 
+### 1. Diffusion Transformer-based Forecasting
 
-2. 환경 정보 조건 주입 (Adaptive Layer Normalization)
-	•	입력 조건:
-	•	과거 30일 해빙 농도
-	•	기후 환경 데이터 (ERA5-Land)
-	•	adaLN을 활용하여 조건 정보를 feature 분포에 직접 반영
-	•	단순 결합 방식 대비 안정적이고 일관된 조건 반영 가능  ￼
+해빙 농도 예측을 미래 상태의 확률 분포를 학습하는 생성 문제로 정의합니다.
 
+Diffusion 과정에서는 실제 미래 해빙 상태에 노이즈를 추가하고, 모델이 이를 점진적으로 제거하도록 학습합니다. Denoising backbone으로 Diffusion Transformer를 사용하여 해빙 영상 내 전역적인 공간 의존성과 시간에 따른 변화 패턴을 학습합니다.
 
-3. 자기회귀 기반 순차 생성
-	•	이전 시점의 예측 결과를 다음 입력으로 활용
-	•	해빙 상태를 일 단위로 연속 생성
+### 2. Multi-modal Conditional Information
 
+모델은 다음 정보를 조건으로 활용합니다.
 
-4. 장기 예측 안정성 개선
-	•	자기회귀 구조에서 발생하는 오차 누적 문제 해결
-	•	일정 구간 roll-out 후 전체 오차를 기반으로 미세 조정 학습 수행
-	•	장기 예측에서의 안정성과 일관성 향상  ￼
+- 과거 30일의 해빙 농도 데이터
+- ERA5-Land 기반 기후 환경 데이터
 
----
-실험
+조건 정보는 Adaptive Layer Normalization(adaLN)을 통해 Transformer block에 주입됩니다. 이를 통해 과거 해빙 상태와 환경적 요인이 denoising 과정 전반에 반영되도록 구성했습니다.
 
-데이터셋
-	•	NOAA 해빙 농도 데이터 (2011–2022)
-	•	ERA5-Land 기후 데이터
-	•	육지 영역 마스킹 적용
+### 3. Autoregressive Sequential Generation
 
-학습 설정
-	•	GPU: RTX A6000
-	•	Epoch: 150
-	•	Batch size: 30  ￼
+모델은 미래 해빙 상태를 일 단위로 순차적으로 생성합니다.
 
-평가 지표
-	•	RMSE (%)
+각 시점에서 생성된 결과는 다음 시점의 입력으로 사용되며, 이를 반복하여 장기 해빙 농도 변화 추세를 예측합니다.
 
----
-결과
-	•	장기 예측에서도 안정적인 성능 유지
-	•	계절 변화가 큰 구간에서도 성능 붕괴 없이 예측 가능
-	•	자기회귀 미세 조정을 통해 오차 누적 감소
-	•	2024년 평균 RMSE: 14.51%
-	•	미세 조정 적용 시 약 1~3% 성능 개선
+```text
+Past SIC and climate conditions
+        ↓
+Diffusion Transformer
+        ↓
+Predicted SIC at t+1
+        ↓
+Input for the next prediction step
+        ↓
+Predicted SIC at t+2, t+3, ...
+```
+
+### 4. Long-term Roll-out Fine-tuning
+
+Autoregressive prediction에서는 이전 시점의 오차가 다음 입력에 포함되면서 장기적으로 누적될 수 있습니다.
+
+이를 완화하기 위해 일정 구간의 prediction roll-out을 수행한 후, 전체 예측 구간의 오차를 기반으로 모델을 추가 학습하는 fine-tuning 전략을 적용했습니다.
+
+이를 통해 장기 예측에서의 오차 누적을 줄이고, 시간적 일관성과 예측 안정성을 개선하고자 했습니다.
 
 ---
-기여
-	•	해빙 농도 예측을 생성 모델 기반 문제로 재정의
-	•	Diffusion Transformer를 활용한 시공간 예측 프레임워크 제안
-	•	조건 정보 주입을 위한 Adaptive Layer Normalization 적용
-	•	장기 예측 안정성을 위한 자기회귀 미세 조정 전략 제안
+
+## Dataset
+
+### Sea Ice Concentration
+
+- Source: NOAA
+- Period: 2011–2022
+- Target: Daily Sea Ice Concentration
+- Preprocessing: Land-area masking
+
+### Climate Conditions
+
+- Source: ERA5-Land
+- Usage: Conditional environmental information
 
 ---
-저자
 
-정예준, 김동윤, 박진선
-부산대학교
+## Experimental Setup
+
+| Configuration | Value |
+|---|---:|
+| GPU | NVIDIA RTX A6000 |
+| Epochs | 150 |
+| Batch size | 30 |
+| Evaluation metric | RMSE (%) |
 
 ---
-citation
 
+## Results
+
+제안 모델은 장기 예측과 계절 변화가 큰 구간에서도 안정적인 해빙 농도 예측 성능을 보였습니다.
+
+- 2024년 평균 RMSE: **14.51%**
+- Autoregressive fine-tuning 적용 후 약 **1–3% 성능 개선**
+- 장기 roll-out 과정에서의 오차 누적 감소
+- 급격한 계절 변화 구간에서도 안정적인 예측 성능 유지
+- 미래 해빙 상태의 연속적인 변화 추세 모델링
+
+---
+
+## Main Contributions
+
+1. **Problem Reformulation**  
+   해빙 농도 예측을 단일 시점 회귀 문제가 아닌, 미래 상태를 순차적으로 생성하는 조건부 생성 문제로 재정의했습니다.
+
+2. **Diffusion Transformer-based Spatiotemporal Forecasting**  
+   Diffusion Transformer를 활용하여 해빙 농도의 전역 공간 구조와 시간적 변화 패턴을 함께 모델링했습니다.
+
+3. **Climate-aware Conditioning**  
+   과거 해빙 농도와 기후 환경 데이터를 Adaptive Layer Normalization을 통해 모델에 조건으로 주입했습니다.
+
+4. **Long-term Forecast Stabilization**  
+   Autoregressive roll-out 과정에서 발생하는 오차 누적을 완화하기 위한 fine-tuning 전략을 적용했습니다.
+
+---
+
+## Authors
+
+- 정예준
+- 김동윤
+- 박진선
+
+Pusan National University
+
+---
+
+## Citation
+
+```bibtex
+@inproceedings{jung2026sic,
+  title     = {Diffusion Transformer를 이용한 해빙 농도 변화 추세 예측 모델},
+  author    = {정예준 and 김동윤 and 박진선},
+  booktitle = {Image Processing and Understanding Workshop},
+  year      = {2026}
+}
+```
+
+또는 다음 형식으로 인용할 수 있습니다.
+
+```text
 정예준, 김동윤, 박진선.
 "Diffusion Transformer를 이용한 해빙 농도 변화 추세 예측 모델."
-IPIU 2025.
+Image Processing and Understanding Workshop (IPIU), 2026.
+```
