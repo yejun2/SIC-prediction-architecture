@@ -9,7 +9,7 @@
 
 이를 위해 과거 해빙 농도와 기후 환경 정보를 조건으로 활용하는 Diffusion Transformer 기반 순차 예측 프레임워크를 제안합니다. 제안 모델은 미래 해빙 상태를 일 단위로 생성하며, 장기 예측 과정에서 나타나는 공간적 변화와 시간적 연속성을 함께 모델링합니다.
 
----
+
 
 ## Motivation
 
@@ -22,7 +22,7 @@
 
 본 연구에서는 해빙 농도 예측을 조건부 생성 문제로 확장하고, 미래 상태를 순차적으로 생성함으로써 해빙의 시공간적 변화 과정을 모델링합니다.
 
----
+
 
 ## Method
 
@@ -67,7 +67,7 @@ Autoregressive prediction에서는 이전 시점의 오차가 다음 입력에 �
 
 이를 통해 장기 예측에서의 오차 누적을 줄이고, 시간적 일관성과 예측 안정성을 개선하고자 했습니다.
 
----
+
 
 ## Dataset
 
@@ -83,7 +83,7 @@ Autoregressive prediction에서는 이전 시점의 오차가 다음 입력에 �
 - Source: ERA5-Land
 - Usage: Conditional environmental information
 
----
+
 
 ## Experimental Setup
 
@@ -94,7 +94,7 @@ Autoregressive prediction에서는 이전 시점의 오차가 다음 입력에 �
 | Batch size | 30 |
 | Evaluation metric | RMSE (%) |
 
----
+
 
 ## Results
 
@@ -106,7 +106,7 @@ Autoregressive prediction에서는 이전 시점의 오차가 다음 입력에 �
 - 급격한 계절 변화 구간에서도 안정적인 예측 성능 유지
 - 미래 해빙 상태의 연속적인 변화 추세 모델링
 
----
+
 
 ## Main Contributions
 
@@ -122,7 +122,7 @@ Autoregressive prediction에서는 이전 시점의 오차가 다음 입력에 �
 4. **Long-term Forecast Stabilization**  
    Autoregressive roll-out 과정에서 발생하는 오차 누적을 완화하기 위한 fine-tuning 전략을 적용했습니다.
 
----
+
 
 ## Authors
 
@@ -132,7 +132,7 @@ Autoregressive prediction에서는 이전 시점의 오차가 다음 입력에 �
 
 Pusan National University
 
----
+
 
 ## Citation
 
