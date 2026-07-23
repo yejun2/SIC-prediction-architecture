@@ -113,8 +113,7 @@ Autoregressive prediction에서는 이전 시점의 오차가 다음 입력에 �
 - 급격한 계절 변화 구간에서도 안정적인 예측 성능 유지
 - 미래 해빙 상태의 연속적인 변화 추세 모델링
 
-
-
+<p align="center"> <img src="./assets/results.png" width="600"> </p> 
 ## Main Contributions
 
 1. **Problem Reformulation**  
