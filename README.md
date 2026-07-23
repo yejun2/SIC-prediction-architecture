@@ -3,13 +3,27 @@
 > **Diffusion Transformer를 이용한 해빙 농도 변화 추세 예측 모델**  
 > Image Processing and Understanding Workshop (IPIU) 2026
 
+<p align="center">
+  <a href="./paper.pdf">Paper</a>
+</p>
+
+---
+
 ## Overview
 
 본 연구는 해빙 농도(Sea Ice Concentration, SIC) 예측을 기존의 단일 시점 회귀 문제에서 벗어나, 시간에 따라 변화하는 미래 해빙 상태를 연속적으로 생성하는 시공간 생성 문제로 재정의합니다.
 
 이를 위해 과거 해빙 농도와 기후 환경 정보를 조건으로 활용하는 Diffusion Transformer 기반 순차 예측 프레임워크를 제안합니다. 제안 모델은 미래 해빙 상태를 일 단위로 생성하며, 장기 예측 과정에서 나타나는 공간적 변화와 시간적 연속성을 함께 모델링합니다.
 
+<p align="center">
+  <img src="./assets/model_architecture.png" width="900">
+</p>
 
+<p align="center">
+  <em>Overall architecture of the proposed Diffusion Transformer-based sequential SIC forecasting framework.</em>
+</p>
+
+---
 
 ## Motivation
 
@@ -22,7 +36,7 @@
 
 본 연구에서는 해빙 농도 예측을 조건부 생성 문제로 확장하고, 미래 상태를 순차적으로 생성함으로써 해빙의 시공간적 변화 과정을 모델링합니다.
 
-
+---
 
 ## Method
 
