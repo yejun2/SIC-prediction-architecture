@@ -15,11 +15,7 @@
 이를 위해 과거 해빙 농도와 기후 환경 정보를 조건으로 활용하는 Diffusion Transformer 기반 순차 예측 프레임워크를 제안합니다. 제안 모델은 미래 해빙 상태를 일 단위로 생성하며, 장기 예측 과정에서 나타나는 공간적 변화와 시간적 연속성을 함께 모델링합니다.
 
 <p align="center">
-  <img src="./assets/model_architecture.png" width="600">
-</p>
-
-<p align="center">
-  <em>Overall architecture of the proposed Diffusion Transformer-based sequential SIC forecasting framework.</em>
+  <img src="./assets/model_architecture.png" width="750">
 </p>
 
 
