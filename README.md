@@ -3,11 +3,10 @@
 > **Diffusion Transformer를 이용한 해빙 농도 변화 추세 예측 모델**  
 > Image Processing and Understanding Workshop (IPIU) 2026
 
-<p align="center">
+<p>
   <a href="./paper.pdf">Paper</a>
 </p>
 
----
 
 ## Overview
 
