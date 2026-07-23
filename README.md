@@ -145,8 +145,6 @@ Pusan National University
 }
 ```
 
-또는 다음 형식으로 인용할 수 있습니다.
-
 ```text
 정예준, 김동윤, 박진선.
 "Diffusion Transformer를 이용한 해빙 농도 변화 추세 예측 모델."
